@@ -51,6 +51,10 @@ git clone https://github.com/metaloom/jdlib.git
 ### Compile JNI/C++ code:
 
 ```bash
+# Generate needed JNI header files via mvn
+mvn compile
+
+# Now build JNI lib
 mkdir build && cd build
 
 # Ensure to select a compatible compiler (Example for Debian 11)

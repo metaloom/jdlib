@@ -6,3 +6,4 @@ target
 /examples/*.dat
 /jni/io_metaloom*.h
 /build
+/src/main/resources/native/linux/libjdlib.so 
