@@ -7,6 +7,18 @@
 #include <dlib/dnn.h>
 using namespace dlib;
 
+// DNN MMOD neural net definition
+
+template <long num_filters, typename SUBNET> using con5d = con<num_filters,5,5,2,2,SUBNET>;
+template <long num_filters, typename SUBNET> using con5  = con<num_filters,5,5,1,1,SUBNET>;
+
+template <typename SUBNET> using downsampler  = relu<affine<con5d<32, relu<affine<con5d<32, relu<affine<con5d<16,SUBNET>>>>>>>>>;
+template <typename SUBNET> using rcon5  = relu<affine<con5<45,SUBNET>>>;
+
+typedef loss_mmod<con<1,9,9,1,1,rcon5<rcon5<rcon5<downsampler<input_rgb_image_pyramid<pyramid_down<6>>>>>>>> net_type;
+
+// Neural net definition
+
 template <template <int, template <typename> class, int, typename> class block, int N, template <typename> class BN, typename SUBNET>
 using residual = add_prev1<block<N, BN, 1, tag1<SUBNET>>>;
 
@@ -54,6 +66,24 @@ private:
     FaceDetectorHandler();
     dlib::frontal_face_detector face_detector;
 };
+
+
+class CNNFaceDetectorHandler
+{
+public:
+    static CNNFaceDetectorHandler *getCNNFaceDetectorHandler(const std::string &model_path);
+
+    net_type getCNNFaceDetectorModel();
+
+    CNNFaceDetectorHandler(CNNFaceDetectorHandler const &) = delete;
+    void operator=(CNNFaceDetectorHandler const &) = delete;
+
+private:
+    CNNFaceDetectorHandler(const std::string &model_path);
+    net_type cnn_face_model;
+    std::string model_path;
+};
+
 
 class ShapePredictorHandler
 {

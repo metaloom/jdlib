@@ -125,8 +125,8 @@ public class FacesClustering extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		BufferedImage img = loadImage("test_img/bald_guys_1.jpg");
-		Jdlib jblib = new Jdlib("shape_predictor_68_face_landmarks.dat", "dlib_face_recognition_resnet_model_v1.dat");
-		List<FaceDescriptor> faces = jblib.getFaceEmbeddings(img);
+		Jdlib jdlib = new Jdlib("shape_predictor_68_face_landmarks.dat", "dlib_face_recognition_resnet_model_v1.dat", "mmod_human_face_detector.dat");
+		List<FaceDescriptor> faces = jdlib.getFaceEmbeddings(img);
 
 		VBox vbox = new VBox();
 		vbox.setAlignment(Pos.CENTER);

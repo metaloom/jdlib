@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -18,16 +17,19 @@ public class Jdlib {
 
 	private String facialLandmarksModelPath;
 	private String faceEmbeddingModelPath;
+	private String cnnFaceDetectorModelPath;
 
-	public Jdlib(String facialLandmarksModelPath, String faceEmbeddingModelPath) {
+	public Jdlib(String facialLandmarksModelPath, String faceEmbeddingModelPath, String cnnFaceDetectorModelPath) {
 		this.facialLandmarksModelPath = facialLandmarksModelPath;
 		this.faceEmbeddingModelPath = faceEmbeddingModelPath;
+		this.cnnFaceDetectorModelPath = cnnFaceDetectorModelPath;
 		loadLib();
 	}
 
 	public Jdlib(String facialLandmarksModelPath) {
 		this.facialLandmarksModelPath = facialLandmarksModelPath;
 		this.faceEmbeddingModelPath = null;
+		this.cnnFaceDetectorModelPath = null;
 		loadLib();
 	}
 
@@ -37,7 +39,11 @@ public class Jdlib {
 
 	private native long getFaceEmbeddingHandler(String modelPath);
 
+	private native long getCNNFaceDetectorHandler(String modelPath);
+
 	private native List<Rectangle> faceDetect(long faceDetectorHandler, byte[] pixels, int h, int w);
+
+	private native List<Rectangle> cnnFaceDetect(long cnnFaceDetectorHandler, byte[] pixels, int h, int w);
 
 	private native List<FaceDescriptor> getFacialLandmarks(long shapePredictorHandler, long faceDetectorHandler, byte[] pixels, int h, int w);
 
@@ -104,6 +110,19 @@ public class Jdlib {
 			getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels, image.height, image.width);
 		if (data == null) {
 			System.err.println("Jdlib | getFaceEmbeddings | Null data!!");
+			data = new ArrayList<>();
+		}
+		return data;
+	}
+
+	public List<Rectangle> cnnDetectFace(BufferedImage img) {
+		if (cnnFaceDetectorModelPath == null) {
+			throw new IllegalArgumentException("Path to cnn face dector model isn't provided!");
+		}
+		Image image = new Image(img);
+		List<Rectangle> data = cnnFaceDetect(getFaceDetectorHandler(), image.pixels, image.height, image.width);
+		if (data == null) {
+			System.err.println("Jdlib | cnnDetectFace | Null data!!");
 			data = new ArrayList<>();
 		}
 		return data;

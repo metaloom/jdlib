@@ -37,6 +37,30 @@ ShapePredictorHandler *ShapePredictorHandler::getShapePredictorHandler(const std
     return shape_predictor_handler;
 }
 
+// CNN Face Detector Handler
+
+CNNFaceDetectorHandler::CNNFaceDetectorHandler(const std::string &model_path) : model_path(model_path)
+{
+    dlib::deserialize(model_path) >> cnn_face_model;
+}
+
+net_type CNNFaceDetectorHandler::getCNNFaceDetectorModel()
+{
+    return cnn_face_model;
+}
+
+CNNFaceDetectorHandler *CNNFaceDetectorHandler::getCNNFaceDetectorHandler(const std::string &model_path)
+{
+    static CNNFaceDetectorHandler *face_detector_handler;
+    if (!face_detector_handler) {
+        face_detector_handler = new CNNFaceDetectorHandler(model_path);
+    }
+    return face_detector_handler;
+}
+
+
+// Face EmbeddingHandler
+
 FaceEmbeddingHandler::FaceEmbeddingHandler(const std::string &model_path) : model_path(model_path)
 {
     dlib::deserialize(model_path) >> face_embedding_model;

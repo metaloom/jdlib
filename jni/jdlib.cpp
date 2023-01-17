@@ -5,6 +5,8 @@
 #include <dlib/image_io.h>
 #include <iostream>
 #include <dlib/image_processing.h>
+#include <dlib/dnn.h>
+#include <dlib/matrix.h>
 #include "utils.hpp"
 #include "handlers.hpp"
 
@@ -85,6 +87,44 @@ JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getShapePredictorHandler(JN
     return (long)shape_predictor_handler;
 }
 
+JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getCNNFaceDetectorHandler(JNIEnv *env, jobject obj, jstring model_path)
+{
+    CNNFaceDetectorHandler *face_detector_handler = face_detector_handler->getCNNFaceDetectorHandler(convertJStringtoStdString(env, model_path));
+
+    return (long)face_detector_handler;
+}
+
+JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_cnnFaceDetect(JNIEnv *env, jobject obj, jlong detectorHandler, jbyteArray imgdata, jint h, jint w)
+{
+
+    // Dereference the handler using the pointer
+    CNNFaceDetectorHandler *face_detector_handler = (CNNFaceDetectorHandler *)detectorHandler;
+    net_type net = face_detector_handler->getCNNFaceDetectorModel();
+
+    // Prepare the image data
+    jbyte *bufferPtr = env->GetByteArrayElements(imgdata, 0);
+    //array2d<rgb_pixel> img = convertBufferedImageToDlibImage(bufferPtr, h, w);
+    matrix<rgb_pixel> img;
+
+    jobject rects_obj = (*env).NewObject(ArrayList_Class, ArrayList_Constructor);
+
+    // Upsampling the image will allow us to detect smaller faces but will cause the
+    // program to use more RAM and run longer.
+    //while (img.size() < 1800 * 1800)
+    //    pyramid_up(img);
+
+    auto dets = net(img);
+    // Now convert the found areas into AWT Rectangles and add them to the list which will be returned.
+    for (auto&& det : dets)
+    {
+        //mmod_rect *rect = &det.rect;
+        rectangle rect = det.rect;
+        jobject jrect = convertDlibRectangleToJRectangle(env, rect, Rectangle_Class, Rectangle_Constructor);
+        env->CallBooleanMethod(rects_obj, ArrayList_Add, jrect);
+    }
+    return rects_obj;
+}
+
 JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getFaceEmbeddingHandler(JNIEnv *env, jobject obj, jstring model_path)
 {
     FaceEmbeddingHandler *face_embedding_handler = face_embedding_handler->getFaceEmbeddingHandler(convertJStringtoStdString(env, model_path));
@@ -95,16 +135,20 @@ JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getFaceEmbeddingHandler(JNI
 JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_faceDetect(JNIEnv *env, jobject obj, jlong detectorHandler, jbyteArray imgdata, jint h, jint w)
 {
 
+    // Dereference the handler using the pointer
     FaceDetectorHandler *face_detector_handler = (FaceDetectorHandler *)detectorHandler;
     dlib::frontal_face_detector detector = face_detector_handler->getFaceDetector();
 
+    // Prepare the image data
     jbyte *bufferPtr = env->GetByteArrayElements(imgdata, 0);
     array2d<rgb_pixel> img = convertBufferedImageToDlibImage(bufferPtr, h, w);
 
+    // Run the actual detection
     std::vector<rectangle> dets = detector(img);
 
     jobject rects_obj = (*env).NewObject(ArrayList_Class, ArrayList_Constructor);
 
+    // Now convert the found areas into AWT Rectangles and add them to the list which will be returned.
     for (int i = 0; i < dets.size(); i++)
     {
         rectangle rect = dets[i];
