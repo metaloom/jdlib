@@ -14,11 +14,12 @@
 		<artifactId>maven-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
+
 	<build>
 		<resources>
 			<resource>
@@ -28,5 +29,19 @@
 				</includes>
 			</resource>
 		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerArgs>
+						<arg>-h</arg>
+						<arg>jni</arg>
+					</compilerArgs>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

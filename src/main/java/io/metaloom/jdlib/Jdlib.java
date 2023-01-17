@@ -37,11 +37,11 @@ public class Jdlib {
 
 	private native long getFaceEmbeddingHandler(String modelPath);
 
-	private native ArrayList<Rectangle> faceDetect(long faceDetectorHandler, byte[] pixels, int h, int w);
+	private native List<Rectangle> faceDetect(long faceDetectorHandler, byte[] pixels, int h, int w);
 
-	private native ArrayList<FaceDescriptor> getFacialLandmarks(long shapePredictorHandler, long faceDetectorHandler, byte[] pixels, int h, int w);
+	private native List<FaceDescriptor> getFacialLandmarks(long shapePredictorHandler, long faceDetectorHandler, byte[] pixels, int h, int w);
 
-	private native ArrayList<FaceDescriptor> getFaceEmbeddings(long FaceEmbeddingHandler, long shapePredictorHandler, long faceDetectorHandler,
+	private native List<FaceDescriptor> getFaceEmbeddings(long FaceEmbeddingHandler, long shapePredictorHandler, long faceDetectorHandler,
 		byte[] pixels, int h, int w);
 
 	private void loadLib() {
