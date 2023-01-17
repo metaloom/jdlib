@@ -24,7 +24,7 @@ static jmethodID Point_Constructor;
 static jclass FaceDescriptor_Class;
 static jmethodID FaceDescriptor_Constructor;
 
-static jint JNI_VERSION = JNI_VERSION_1_8;
+static jint JNI_VERSION = JNI_VERSION_9;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
