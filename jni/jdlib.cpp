@@ -1,4 +1,4 @@
-#include"com_emaraic_jdlib_Jdlib.h"
+#include"io_metaloom_jdlib_Jdlib.h"
 
 
 #include <dlib/image_processing/frontal_face_detector.h>
@@ -56,7 +56,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     env->DeleteLocalRef(tempLocalClassRef);
     Point_Constructor =getJavaMethod(env, Point_Class, "<init>", "(II)V");
     
-    tempLocalClassRef = getJavaClass(env, "com/emaraic/utils/FaceDescriptor");
+    tempLocalClassRef = getJavaClass(env, "io/metaloom/jdlib/util/FaceDescriptor");
     FaceDescriptor_Class = (jclass) env->NewGlobalRef(tempLocalClassRef);
     env->DeleteLocalRef(tempLocalClassRef);
     FaceDescriptor_Constructor = getJavaMethod(env, FaceDescriptor_Class, "<init>", "(Ljava/awt/Rectangle;Ljava/util/ArrayList;[F)V");
@@ -75,21 +75,21 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
 }
 
 
-JNIEXPORT jlong JNICALL Java_com_emaraic_jdlib_Jdlib_getFaceDectorHandler
+JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getFaceDectorHandler
 (JNIEnv *env, jobject obj){
     FaceDetectorHandler *face_detector_handler=face_detector_handler->getFaceDetectorHandler();
     
     return (long) face_detector_handler;
 }
 
-JNIEXPORT jlong JNICALL Java_com_emaraic_jdlib_Jdlib_getShapePredictorHandler
+JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getShapePredictorHandler
 (JNIEnv *env, jobject obj, jstring model_path){
     ShapePredictorHandler *shape_predictor_handler=shape_predictor_handler->getShapePredictorHandler(convertJStringtoStdString(env, model_path));
      
      return (long) shape_predictor_handler;
 }
 
-JNIEXPORT jlong JNICALL Java_com_emaraic_jdlib_Jdlib_getFaceEmbeddingHandler
+JNIEXPORT jlong JNICALL Java_io_metaloom_jdlib_Jdlib_getFaceEmbeddingHandler
 (JNIEnv *env, jobject obj, jstring model_path){
     FaceEmbeddingHandler *face_embedding_handler=face_embedding_handler->getFaceEmbeddingHandler(convertJStringtoStdString(env, model_path));
      
@@ -98,7 +98,7 @@ JNIEXPORT jlong JNICALL Java_com_emaraic_jdlib_Jdlib_getFaceEmbeddingHandler
 
 
 
-JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_faceDetect
+JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_faceDetect
  (JNIEnv *env , jobject obj, jlong detectorHandler, jbyteArray imgdata, jint h, jint w){
      
        FaceDetectorHandler *face_detector_handler = (FaceDetectorHandler*)detectorHandler;
@@ -123,7 +123,7 @@ JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_faceDetect
  }
 
 
-JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_getFacialLandmarks
+JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_getFacialLandmarks
 (JNIEnv *env , jobject obj, jlong shapePredictorHandler, jlong faceDetectorHandler, jbyteArray imgdata, jint h, jint w){
     
       FaceDetectorHandler *face_detector_handler = (FaceDetectorHandler*)faceDetectorHandler;
@@ -166,7 +166,7 @@ JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_getFacialLandmarks
 
 
 
-JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_getFaceEmbeddings
+JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_getFaceEmbeddings
 (JNIEnv *env , jobject obj, jlong faceEmbeddingHandler, jlong shapePredictorHandler, jlong faceDetectorHandler, jbyteArray imgdata, jint h, jint w){
     
       FaceDetectorHandler *face_detector_handler = (FaceDetectorHandler*)faceDetectorHandler;
@@ -207,9 +207,7 @@ JNIEXPORT jobject JNICALL Java_com_emaraic_jdlib_Jdlib_getFaceEmbeddings
         extract_image_chip(img, get_face_chip_details(shape,150,0.25), face_chip);
         
         matrix<float,0,1> face_embedding = face_embedding_model(face_chip);
-        
 
-        
         std::unique_ptr<float[]>  face_emb=face_embedding.steal_memory();
         
         jfloatArray jemb;

@@ -1,10 +1,3 @@
-//
-//  utils.hpp
-//  Jdlib
-//
-//  Created by Taha Emara on 11/21/20.
-//
-
 #ifndef utils_hpp
 #define utils_hpp
 #include <iostream>

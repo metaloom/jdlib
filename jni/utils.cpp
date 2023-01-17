@@ -1,10 +1,3 @@
-//
-//  utils.cpp
-//  Jdlib
-//
-//  Created by Taha Emara on 11/21/20.
-//
-
 #include "utils.hpp"
 
 
