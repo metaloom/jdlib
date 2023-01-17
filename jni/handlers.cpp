@@ -12,8 +12,9 @@ dlib::frontal_face_detector FaceDetectorHandler::getFaceDetector()
 FaceDetectorHandler *FaceDetectorHandler::getFaceDetectorHandler()
 {
     static FaceDetectorHandler *face_detector_handler;
-    if (!face_detector_handler)
+    if (!face_detector_handler) {
         face_detector_handler = new FaceDetectorHandler;
+    }
     return face_detector_handler;
 }
 
@@ -30,8 +31,9 @@ dlib::shape_predictor ShapePredictorHandler::getShapePredictorModel()
 ShapePredictorHandler *ShapePredictorHandler::getShapePredictorHandler(const std::string &model_path)
 {
     static ShapePredictorHandler *shape_predictor_handler;
-    if (!shape_predictor_handler)
+    if (!shape_predictor_handler) {
         shape_predictor_handler = new ShapePredictorHandler(model_path);
+    }
     return shape_predictor_handler;
 }
 
@@ -48,7 +50,8 @@ anet_type FaceEmbeddingHandler::getFaceEmbeddingModel()
 FaceEmbeddingHandler *FaceEmbeddingHandler::getFaceEmbeddingHandler(const std::string &model_path)
 {
     static FaceEmbeddingHandler *face_embedding_handler;
-    if (!face_embedding_handler)
+    if (!face_embedding_handler) {
         face_embedding_handler = new FaceEmbeddingHandler(model_path);
+    }
     return face_embedding_handler;
 }
