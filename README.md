@@ -52,7 +52,7 @@ git clone https://github.com/metaloom/jdlib.git
 
 ```bash
 # Generate needed JNI header files via mvn
-mvn compile
+mvn clean compile
 
 # Now build JNI lib
 mkdir build && cd build

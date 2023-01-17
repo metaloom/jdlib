@@ -31,7 +31,7 @@ public class Jdlib {
 		loadLib();
 	}
 
-	private native long getFaceDectorHandler();
+	private native long getFaceDetectorHandler();
 
 	private native long getShapePredictorHandler(String modelPath);
 
@@ -57,45 +57,25 @@ public class Jdlib {
 			throw new java.lang.UnsupportedOperationException(os + " is not supported. Try to recompile Jdlib on your machine and then use it.");
 		}
 
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
-		try {
-			inputStream = Jdlib.class.getResourceAsStream(libpath);
+		try (InputStream inputStream = Jdlib.class.getResourceAsStream(libpath)) {
 			File fileOut = File.createTempFile(name, "");
-
-			outputStream = new FileOutputStream(fileOut);
-			byte[] buffer = new byte[1024];
-			int read = -1;
-			while ((read = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, read);
+			try (OutputStream outputStream = new FileOutputStream(fileOut)) {
+				byte[] buffer = new byte[1024];
+				int read = -1;
+				while ((read = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, read);
+				}
+				System.load(fileOut.toString());
 			}
-			outputStream.close();
-			inputStream.close();
-			System.load(fileOut.toString());
 		} catch (Exception e) {
 			System.err.println("Failed to load jdlib native library.");
 			e.printStackTrace();
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					System.err.println("Error During Closing Input Stream!!");
-				}
-			}
-			if (outputStream != null) {
-				try {
-					outputStream.close();
-				} catch (IOException e) {
-					System.err.println("Error During Closing Output Stream!!");
-				}
-			}
 		}
 	}
 
 	public List<Rectangle> detectFace(BufferedImage img) {
 		Image image = new Image(img);
-		List<Rectangle> data = faceDetect(getFaceDectorHandler(), image.pixels, image.height, image.width);
+		List<Rectangle> data = faceDetect(getFaceDetectorHandler(), image.pixels, image.height, image.width);
 		if (data == null) {
 			System.err.println("Jdlib | detectFace | Null data!!");
 			data = new ArrayList<>();
@@ -105,7 +85,7 @@ public class Jdlib {
 
 	public List<FaceDescriptor> getFaceLandmarks(BufferedImage img) {
 		Image image = new Image(img);
-		List<FaceDescriptor> data = getFacialLandmarks(getShapePredictorHandler(facialLandmarksModelPath), getFaceDectorHandler(), image.pixels,
+		List<FaceDescriptor> data = getFacialLandmarks(getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels,
 			image.height, image.width);
 		if (data == null) {
 			System.err.println("Jdlib | getFaceLandmarks | Null data!!");
@@ -121,7 +101,7 @@ public class Jdlib {
 
 		Image image = new Image(img);
 		List<FaceDescriptor> data = getFaceEmbeddings(getFaceEmbeddingHandler(faceEmbeddingModelPath),
-			getShapePredictorHandler(facialLandmarksModelPath), getFaceDectorHandler(), image.pixels, image.height, image.width);
+			getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels, image.height, image.width);
 		if (data == null) {
 			System.err.println("Jdlib | getFaceEmbeddings | Null data!!");
 			data = new ArrayList<>();
