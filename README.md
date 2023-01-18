@@ -94,5 +94,5 @@ cd examples
 mvn clean package
 java -jar target/clustering-example-jar-with-dependencies.jar
 java -jar target/landmarks-example-jar-with-dependencies.jar
-java -jar target/cnn-facedetet-example-jar-with-dependencies.jar
+java -jar target/cnn-facedetect-example-jar-with-dependencies.jar
 ```

@@ -62,7 +62,7 @@
 									<mainClass>io.metaloom.jdlib.examples.cnn.CNNFaceDetectExample</mainClass>
 								</manifest>
 							</archive>
-							<finalName>cnn-facedetet-example</finalName>
+							<finalName>cnn-facedetect-example</finalName>
 						</configuration>
 					</execution>
 				</executions>
