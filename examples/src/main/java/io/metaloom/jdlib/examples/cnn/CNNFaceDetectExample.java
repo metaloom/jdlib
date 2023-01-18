@@ -1,4 +1,4 @@
-package io.metaloom.jdlib.examples.landmark;
+package io.metaloom.jdlib.examples.cnn;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -13,10 +13,10 @@ import javax.imageio.ImageIO;
 import io.metaloom.jdlib.Jdlib;
 import io.metaloom.jdlib.util.ImageUtils;
 
+
 /**
- * This example based on C++ example from http://dlib.net/face_landmark_detection_ex.cpp.html This example program shows how to find frontal human faces in an
- * image and estimate their pose. The pose takes the form of 68 landmarks. These are points on the face such as the corners of the mouth, along the eyebrows, on
- * the eyes, and so forth.
+ * This example makes use of a CNN based face detector which has GPU support.
+ * http://dlib.net/cnn_face_detector.py.html
  */
 public class CNNFaceDetectExample {
 

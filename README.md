@@ -6,6 +6,8 @@ Java Wrapper For dlib for Linux and MacOSX. Till now the wrapper contains stubs 
 
 This is a fork of [jdlib](https://github.com/tahaemara/jdlib) which was initially created by Taha Emara.
 
+This fork supports a way to run the CNN based face detection which can utilize the GPU.
+
 ## Demo
 ### Face Clustering Example
 
@@ -92,4 +94,5 @@ cd examples
 mvn clean package
 java -jar target/clustering-example-jar-with-dependencies.jar
 java -jar target/landmarks-example-jar-with-dependencies.jar
+java -jar target/cnn-facedetet-example-jar-with-dependencies.jar
 ```

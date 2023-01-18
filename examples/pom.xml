@@ -44,10 +44,25 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>io.metaloom.jdlib.examples.clustering.Launcher</mainClass>
+									<mainClass>io.metaloom.jdlib.examples.clustering.FacesClustering</mainClass>
 								</manifest>
 							</archive>
 							<finalName>clustering-example</finalName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>cnn-facedetect-example</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>io.metaloom.jdlib.examples.cnn.CNNFaceDetectExample</mainClass>
+								</manifest>
+							</archive>
+							<finalName>cnn-facedetet-example</finalName>
 						</configuration>
 					</execution>
 				</executions>

@@ -120,7 +120,7 @@ public class Jdlib {
 			throw new IllegalArgumentException("Path to cnn face dector model isn't provided!");
 		}
 		Image image = new Image(img);
-		List<Rectangle> data = cnnFaceDetect(getFaceDetectorHandler(), image.pixels, image.height, image.width);
+		List<Rectangle> data = cnnFaceDetect(getCNNFaceDetectorHandler(cnnFaceDetectorModelPath), image.pixels, image.height, image.width);
 		if (data == null) {
 			System.err.println("Jdlib | cnnDetectFace | Null data!!");
 			data = new ArrayList<>();

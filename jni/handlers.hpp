@@ -15,7 +15,8 @@ template <long num_filters, typename SUBNET> using con5  = con<num_filters,5,5,1
 template <typename SUBNET> using downsampler  = relu<affine<con5d<32, relu<affine<con5d<32, relu<affine<con5d<16,SUBNET>>>>>>>>>;
 template <typename SUBNET> using rcon5  = relu<affine<con5<45,SUBNET>>>;
 
-typedef loss_mmod<con<1,9,9,1,1,rcon5<rcon5<rcon5<downsampler<input_rgb_image_pyramid<pyramid_down<6>>>>>>>> net_type;
+//typedef loss_mmod<con<1,9,9,1,1,rcon5<rcon5<rcon5<downsampler<input_rgb_image_pyramid<pyramid_down<6>>>>>>>> net_type;
+using net_type = loss_mmod<con<1,9,9,1,1,rcon5<rcon5<rcon5<downsampler<input_rgb_image_pyramid<pyramid_down<6>>>>>>>>;
 
 // Neural net definition
 

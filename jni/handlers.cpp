@@ -51,11 +51,11 @@ net_type CNNFaceDetectorHandler::getCNNFaceDetectorModel()
 
 CNNFaceDetectorHandler *CNNFaceDetectorHandler::getCNNFaceDetectorHandler(const std::string &model_path)
 {
-    static CNNFaceDetectorHandler *face_detector_handler;
-    if (!face_detector_handler) {
-        face_detector_handler = new CNNFaceDetectorHandler(model_path);
+    static CNNFaceDetectorHandler *cnn_face_detector_handler;
+    if (!cnn_face_detector_handler) {
+        cnn_face_detector_handler = new CNNFaceDetectorHandler(model_path);
     }
-    return face_detector_handler;
+    return cnn_face_detector_handler;
 }
 
 
