@@ -96,3 +96,14 @@ java -jar target/clustering-example-jar-with-dependencies.jar
 java -jar target/landmarks-example-jar-with-dependencies.jar
 java -jar target/cnn-facedetect-example-jar-with-dependencies.jar
 ```
+
+## Releasing
+
+```bash
+# Set release version and commit changes
+mvn versions:set -DgenerateBackupPoms=false
+git add pom.xml ; git commit -m "Prepare release"
+
+# Invoke release
+mvn clean deploy -Drelease
+```
