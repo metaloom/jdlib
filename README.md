@@ -15,10 +15,6 @@ This fork supports a way to run the CNN based face detection which can utilize t
 
 ## Using Jdlib
 
-JAR files contains binaries of Jdlib on current supprted platforms (Linux and Mac OS X) inside [releases](https://github.com/metaloom/jdlib/releases).
-
-Also you can have everything downloaded and installed automatically with Maven after including the next dependency inside the pom.xml.
-
 ```
 <dependency>
   <groupId>io.metaloom.jdlib</groupId>
@@ -32,7 +28,7 @@ Also you can have everything downloaded and installed automatically with Maven a
 ### Requirements:
 
 - Dlib installation requirements [Using dlib from C++](http://dlib.net/compile.html)
-- JDK 11 or newer
+- JDK 17 or newer
 - Maven
 
 ```
