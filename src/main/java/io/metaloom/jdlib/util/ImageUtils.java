@@ -27,7 +27,7 @@ public class ImageUtils {
 		if (frame == null) {
 			frame = new JFrame();
 			frame.setTitle("Jdlib Viewer");
-			frame.setResizable(false);
+			frame.setResizable(true);
 			frame.setSize(image.getWidth(), image.getHeight());
 			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			label = new JLabel();
@@ -38,6 +38,7 @@ public class ImageUtils {
 			frame.setVisible(true);
 		} else {
 			label.setIcon(new ImageIcon(image));
+			label.setSize(image.getWidth(), image.getHeight());
 		}
 	}
 

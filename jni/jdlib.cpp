@@ -108,8 +108,8 @@ JNIEXPORT jobject JNICALL Java_io_metaloom_jdlib_Jdlib_cnnFaceDetect(JNIEnv *env
 
     // Upsampling the image will allow us to detect smaller faces but will cause the
     // program to use more RAM and run longer.
-    while (img.size() < 512 * 512)
-        pyramid_up(img);
+    //while (img.size() < 512 * 512)
+    //    pyramid_up(img);
 
     auto dets = net(img);
 
