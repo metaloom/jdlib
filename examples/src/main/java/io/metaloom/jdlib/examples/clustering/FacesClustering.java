@@ -96,23 +96,23 @@ public class FacesClustering extends Application {
 
 	private List<List<FaceDescriptor>> clusterFaces(List<FaceDescriptor> facedescriptors) {
 
-		DBSCANClusterer clusterAlgo = new DBSCANClusterer(0.6, 2);
+		DBSCANClusterer<DoublePoint> clusterAlgo = new DBSCANClusterer<>(0.6, 2);
 		List<DoublePoint> ar = new ArrayList<>();
 		facedescriptors.stream().forEach((facedescriptor) -> {
 			ar.add(new DoublePoint(convertFloatsToDoubles(facedescriptor.getFaceEmbedding())));
 		});
 
-		List<Cluster> clusters = clusterAlgo.cluster(ar);
+		List<Cluster<DoublePoint>> clusters = clusterAlgo.cluster(ar);
 
 		List<List<FaceDescriptor>> clusterlist = new ArrayList<>();
 		for (int i = 0; i < clusters.size(); i++) {
-			Cluster cluster = clusters.get(i);
+			Cluster<DoublePoint> cluster = clusters.get(i);
 			String label = "P: " + i;
 			List<FaceDescriptor> clusterfaces = new ArrayList<>();
-			cluster.getPoints().stream().forEach((point) -> {
+			cluster.getPoints().stream().forEach(point -> {
 				facedescriptors.stream().filter(
-					(facedescriptor) -> (Arrays.equals(convertFloatsToDoubles(facedescriptor.getFaceEmbedding()), ((DoublePoint) point).getPoint())))
-					.forEach((facedescriptor) -> {
+					facedescriptor -> (Arrays.equals(convertFloatsToDoubles(facedescriptor.getFaceEmbedding()), point.getPoint())))
+					.forEach(facedescriptor -> {
 						facedescriptor.setLabel(label);
 						clusterfaces.add(facedescriptor);
 					});
