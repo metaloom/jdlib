@@ -42,7 +42,7 @@ public class FacialLandmarksExample {
 	public static void main(String[] args) {
 
 		String facialLandmarksModelPath = "shape_predictor_68_face_landmarks.dat";
-		String imagepath = "test_img/bald_guys.jpg";
+		String imagepath = "out14.png";
 
 		Jdlib jdlib = new Jdlib(facialLandmarksModelPath);
 

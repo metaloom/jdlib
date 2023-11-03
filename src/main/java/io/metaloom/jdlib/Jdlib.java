@@ -10,10 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.metaloom.jdlib.util.FaceDescriptor;
 import io.metaloom.jdlib.util.Image;
 
 public class Jdlib {
+
+	private static final Logger log = LoggerFactory.getLogger(Jdlib.class);
 
 	private String facialLandmarksModelPath;
 	private String faceEmbeddingModelPath;
@@ -48,10 +53,11 @@ public class Jdlib {
 	private native List<FaceDescriptor> getFacialLandmarks(long shapePredictorHandler, long faceDetectorHandler, byte[] pixels, int h, int w);
 
 	private native List<FaceDescriptor> getFaceEmbeddings(long FaceEmbeddingHandler, long shapePredictorHandler, long faceDetectorHandler,
-		byte[] pixels, int h, int w);
+			byte[] pixels, int h, int w);
 
 	private void loadLib() {
-		String os = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+		String os = System.getProperty("os.name", "generic")
+				.toLowerCase(Locale.ENGLISH);
 		String name = System.mapLibraryName("jdlib");
 
 		String libpath = "";
@@ -74,8 +80,7 @@ public class Jdlib {
 				System.load(fileOut.toString());
 			}
 		} catch (Exception e) {
-			System.err.println("Failed to load jdlib native library.");
-			e.printStackTrace();
+			log.error("Failed to load jdlib native library.", e);
 		}
 	}
 
@@ -83,7 +88,7 @@ public class Jdlib {
 		Image image = new Image(img);
 		List<Rectangle> data = faceDetect(getFaceDetectorHandler(), image.pixels, image.height, image.width);
 		if (data == null) {
-			System.err.println("Jdlib | detectFace | Null data!!");
+			log.error("Jdlib | detectFace | Null data!!");
 			data = new ArrayList<>();
 		}
 		return data;
@@ -92,9 +97,9 @@ public class Jdlib {
 	public List<FaceDescriptor> getFaceLandmarks(BufferedImage img) {
 		Image image = new Image(img);
 		List<FaceDescriptor> data = getFacialLandmarks(getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels,
-			image.height, image.width);
+				image.height, image.width);
 		if (data == null) {
-			System.err.println("Jdlib | getFaceLandmarks | Null data!!");
+			log.error("Jdlib | getFaceLandmarks | Null data!");
 			data = new ArrayList<>();
 		}
 		return data;
@@ -107,9 +112,9 @@ public class Jdlib {
 
 		Image image = new Image(img);
 		List<FaceDescriptor> data = getFaceEmbeddings(getFaceEmbeddingHandler(faceEmbeddingModelPath),
-			getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels, image.height, image.width);
+				getShapePredictorHandler(facialLandmarksModelPath), getFaceDetectorHandler(), image.pixels, image.height, image.width);
 		if (data == null) {
-			System.err.println("Jdlib | getFaceEmbeddings | Null data!!");
+			log.error("Jdlib | getFaceEmbeddings | Null data!");
 			data = new ArrayList<>();
 		}
 		return data;
@@ -122,7 +127,7 @@ public class Jdlib {
 		Image image = new Image(img);
 		List<Rectangle> data = cnnFaceDetect(getCNNFaceDetectorHandler(cnnFaceDetectorModelPath), image.pixels, image.height, image.width);
 		if (data == null) {
-			System.err.println("Jdlib | cnnDetectFace | Null data!!");
+			log.error("Jdlib | cnnDetectFace | Null data!");
 			data = new ArrayList<>();
 		}
 		return data;

@@ -19,7 +19,7 @@ This fork supports a way to run the CNN based face detection which can utilize t
 <dependency>
   <groupId>io.metaloom.jdlib</groupId>
   <artifactId>jdlib</artifactId>
-  <version>2.1.0-SNAPSHOT</version>
+  <version>${project.version}</version>
 </dependency>
 ```
 

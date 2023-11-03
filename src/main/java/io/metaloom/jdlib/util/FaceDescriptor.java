@@ -2,22 +2,22 @@ package io.metaloom.jdlib.util;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.List;
 
 public class FaceDescriptor {
 
 	private final Rectangle faceBox;
-	private final ArrayList<Point> facialLandmarks;
+	private final List<Point> facialLandmarks;
 	private final float[] faceEmbedding;
 	private String label;
 
-	public FaceDescriptor(Rectangle faceBoxes, ArrayList<Point> facialLandmarks) {
+	public FaceDescriptor(Rectangle faceBoxes, List<Point> facialLandmarks) {
 		this.faceBox = faceBoxes;
 		this.facialLandmarks = facialLandmarks;
 		this.faceEmbedding = null;
 	}
 
-	public FaceDescriptor(Rectangle faceBoxes, ArrayList<Point> facialLandmarks, float[] faceEmbedding) {
+	public FaceDescriptor(Rectangle faceBoxes, List<Point> facialLandmarks, float[] faceEmbedding) {
 		this.faceBox = faceBoxes;
 		this.facialLandmarks = facialLandmarks;
 		this.faceEmbedding = faceEmbedding;
@@ -28,7 +28,7 @@ public class FaceDescriptor {
 		return faceBox;
 	}
 
-	public ArrayList<Point> getFacialLandmarks() {
+	public List<Point> getFacialLandmarks() {
 		return facialLandmarks;
 	}
 

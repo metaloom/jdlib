@@ -58,7 +58,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     tempLocalClassRef = getJavaClass(env, "io/metaloom/jdlib/util/FaceDescriptor");
     FaceDescriptor_Class = (jclass)env->NewGlobalRef(tempLocalClassRef);
     env->DeleteLocalRef(tempLocalClassRef);
-    FaceDescriptor_Constructor = getJavaMethod(env, FaceDescriptor_Class, "<init>", "(Ljava/awt/Rectangle;Ljava/util/ArrayList;[F)V");
+    FaceDescriptor_Constructor = getJavaMethod(env, FaceDescriptor_Class, "<init>", "(Ljava/awt/Rectangle;Ljava/util/List;[F)V");
 
     return JNI_VERSION;
 }
