@@ -43,18 +43,16 @@ import javafx.util.Duration;
 public class FacesClustering extends Application {
 
 	private BufferedImage loadImage(String imagepath) {
-		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File(imagepath));
+			return ImageIO.read(new File(imagepath));
 		} catch (IOException e) {
 			System.err.println("Error During Loading File: " + imagepath);
+			return null;
 		}
-		return img;
 	}
 
 	private Image convertToJFXImage(BufferedImage image) {
-		Image img = SwingFXUtils.toFXImage(image, null);
-		return img;
+		return SwingFXUtils.toFXImage(image, null);
 	}
 
 	private LinkedHashMap<Image, FaceDescriptor> splitImage(Image img, List<List<FaceDescriptor>> faces) {
@@ -95,10 +93,9 @@ public class FacesClustering extends Application {
 	}
 
 	private List<List<FaceDescriptor>> clusterFaces(List<FaceDescriptor> facedescriptors) {
-
 		DBSCANClusterer<DoublePoint> clusterAlgo = new DBSCANClusterer<>(0.6, 2);
 		List<DoublePoint> ar = new ArrayList<>();
-		facedescriptors.stream().forEach((facedescriptor) -> {
+		facedescriptors.stream().forEach(facedescriptor -> {
 			ar.add(new DoublePoint(convertFloatsToDoubles(facedescriptor.getFaceEmbedding())));
 		});
 
@@ -111,7 +108,7 @@ public class FacesClustering extends Application {
 			List<FaceDescriptor> clusterfaces = new ArrayList<>();
 			cluster.getPoints().stream().forEach(point -> {
 				facedescriptors.stream().filter(
-					facedescriptor -> (Arrays.equals(convertFloatsToDoubles(facedescriptor.getFaceEmbedding()), point.getPoint())))
+					facedescriptor -> Arrays.equals(convertFloatsToDoubles(facedescriptor.getFaceEmbedding()), point.getPoint()))
 					.forEach(facedescriptor -> {
 						facedescriptor.setLabel(label);
 						clusterfaces.add(facedescriptor);
