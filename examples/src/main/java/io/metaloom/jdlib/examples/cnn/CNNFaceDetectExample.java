@@ -42,7 +42,7 @@ public class CNNFaceDetectExample {
 
 	public static void main(String[] args) {
 
-		String imagepath = "out14.png";
+		String imagepath = "test_img/bald_guys.jpg";
 		Jdlib jdlib = new Jdlib("shape_predictor_68_face_landmarks.dat", "dlib_face_recognition_resnet_model_v1.dat", "mmod_human_face_detector.dat");
 
 		BufferedImage img = loadImage(imagepath);
